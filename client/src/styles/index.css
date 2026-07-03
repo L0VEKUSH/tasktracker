@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-gray-50 text-gray-900 dark:bg-surface-dark dark:text-gray-100 transition-colors duration-300;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-700 rounded-full;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/70 dark:bg-white/5 backdrop-blur-md border border-white/40 dark:border-white/10;
+  }
+
+  .card {
+    @apply glass rounded-2xl shadow-soft dark:shadow-soft-dark transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply hover:shadow-glow hover:-translate-y-0.5;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold
+      transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98];
+  }
+
+  .btn-primary {
+    @apply btn text-white bg-gradient-to-r from-brand-500 to-brand-400 shadow-md
+      hover:shadow-glow hover:from-brand-600 hover:to-brand-500;
+  }
+
+  .btn-secondary {
+    @apply btn bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-white/10 dark:text-gray-200 dark:hover:bg-white/20;
+  }
+
+  .btn-danger {
+    @apply btn text-white bg-gradient-to-r from-rose-600 to-rose-500 shadow-md hover:shadow-glow hover:from-rose-700 hover:to-rose-600;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-white/10;
+  }
+
+  .input-field {
+    @apply w-full rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5
+      px-4 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400
+      focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-transparent transition-all duration-200;
+  }
+
+  .input-error {
+    @apply ring-2 ring-rose-400 border-transparent;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold;
+  }
+
+  .skeleton {
+    @apply relative overflow-hidden bg-gray-200 dark:bg-white/10 rounded-lg;
+  }
+  .skeleton::after {
+    content: '';
+    @apply absolute inset-0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    background-size: 500px 100%;
+    animation: shimmer 1.5s infinite linear;
+  }
+}
