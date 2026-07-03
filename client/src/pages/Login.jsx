@@ -6,6 +6,7 @@ import AuthContext from '../context/AuthContext';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
+  const [submitting, setSubmitting] = useState(false);
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -16,6 +17,7 @@ const Login = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
     try {
       const userData = await authService.login(formData);
       login(userData);
@@ -23,11 +25,13 @@ const Login = () => {
       navigate('/');
     } catch (error) {
       toast.error(error.message || 'Login failed');
+    } finally {
+      setSubmitting(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[80vh]">
+    <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="w-full max-w-md p-8 space-y-8 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700">
         <div className="text-center">
           <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white">
@@ -49,7 +53,7 @@ const Login = () => {
                 value={email}
                 onChange={onChange}
                 required
-                className="w-full px-4 py-3 mt-1 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-slate-700 dark:text-white transition-colors"
+                className="w-full px-4 py-3 mt-1 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm focus:ring-brand-500 focus:border-brand-500 dark:bg-slate-700 dark:text-white transition-colors outline-none"
                 placeholder="you@example.com"
               />
             </div>
@@ -63,7 +67,7 @@ const Login = () => {
                 value={password}
                 onChange={onChange}
                 required
-                className="w-full px-4 py-3 mt-1 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-slate-700 dark:text-white transition-colors"
+                className="w-full px-4 py-3 mt-1 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm focus:ring-brand-500 focus:border-brand-500 dark:bg-slate-700 dark:text-white transition-colors outline-none"
                 placeholder="••••••••"
               />
             </div>
@@ -72,9 +76,10 @@ const Login = () => {
           <div>
             <button
               type="submit"
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
+              disabled={submitting}
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-brand-500 hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              Sign In
+              {submitting ? 'Signing in...' : 'Sign In'}
             </button>
           </div>
         </form>
@@ -82,7 +87,7 @@ const Login = () => {
           Don't have an account?{' '}
           <Link
             to="/signup"
-            className="font-medium text-primary-600 hover:text-primary-500 transition-colors"
+            className="font-medium text-brand-500 hover:text-brand-600 transition-colors"
           >
             Sign up
           </Link>
@@ -93,3 +98,4 @@ const Login = () => {
 };
 
 export default Login;
+

@@ -6,6 +6,7 @@ import { AuthProvider } from './context/AuthContext';
 import ErrorBoundary from './components/ErrorBoundary';
 import Layout from './components/Layout';
 import PrivateRoute from './components/PrivateRoute';
+import PublicRoute from './components/PublicRoute';
 import Dashboard from './pages/Dashboard';
 import Tasks from './pages/Tasks';
 import TaskDetails from './pages/TaskDetails';
@@ -39,9 +40,13 @@ function App() {
             }}
           >
             <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              
+              {/* Public routes — redirect to / if already logged in */}
+              <Route element={<PublicRoute />}>
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+              </Route>
+
+              {/* Protected routes */}
               <Route element={<PrivateRoute />}>
                 <Route element={<Layout />}>
                   <Route path="/" element={<Dashboard />} />
@@ -49,7 +54,7 @@ function App() {
                   <Route path="/tasks/:id" element={<TaskDetails />} />
                 </Route>
               </Route>
-              
+
               <Route path="*" element={<NotFound />} />
             </Routes>
             <ToastWithTheme />

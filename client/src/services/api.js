@@ -20,9 +20,14 @@ api.interceptors.request.use(
 );
 
 // Normalizes errors so components always receive a readable message
+// Also auto-logs out on 401 (expired/invalid token)
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('user');
+      window.location.href = '/login';
+    }
     const message =
       error.response?.data?.message ||
       error.response?.data?.errors?.[0]?.message ||

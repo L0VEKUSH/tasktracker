@@ -40,6 +40,8 @@ const taskSchema = new mongoose.Schema(
 );
 
 // Indexes to speed up search / filter / sort operations
+taskSchema.index({ user: 1 }); // Critical for per-user queries
+taskSchema.index({ user: 1, status: 1 }); // Compound for filtered queries
 taskSchema.index({ title: 'text' });
 taskSchema.index({ status: 1 });
 taskSchema.index({ priority: 1 });
